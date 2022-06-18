@@ -23,6 +23,7 @@ const TimesSchema: Schema = new Schema({
 // BannerOffering interface
 export interface IBannerOffering extends Document {
   prof: string,
+  prof_full: string
   crn: string,
   room: string,
   type: string,
@@ -38,6 +39,7 @@ export interface IBannerOffering extends Document {
 // BannerOffering mongoose schema
 const BannerOfferingSchema: Schema = new Schema({
   prof: { type: String, required: true },
+  prof_full: { type: String, required: true },
   crn: { type: String, required: true },
   room: { type: String, required: true },
   type: { type: String, required: true },

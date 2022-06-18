@@ -14,6 +14,7 @@ export const typeDefs = gql`
     type BannerOffering {
         _id: ID,
         prof: String,
+        prof_full: String,
         crn: String,
         room: String,
         type: String,

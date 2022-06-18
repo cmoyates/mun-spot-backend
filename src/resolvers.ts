@@ -11,9 +11,6 @@ export const resolvers = {
             .find(query)
             .limit(5)
             .exec();
-            offerings.forEach(offering => {
-                console.log(offering.prof)
-            });
             return offerings;
         },
         getCourseDetails: async (_parent: any, { subject, number }: { subject: string, number: string }) => {
