@@ -1,5 +1,5 @@
-import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -9,6 +9,7 @@ const MONGO_OPTIONS = {
   useNewUrlParser: true,
   socketTimeoutMS: 30000,
   keepAlive: true,
+  autoIndex: false,
   retryWrites: false
 };
 
@@ -16,9 +17,15 @@ const MONGO_OPTIONS = {
 const envPopulated: boolean = process.env.MONGO_USERNAME !== undefined && process.env.MONGO_PASSWORD !== undefined && process.env.MONGO_HOST !== undefined;
 // Set the URI accordingly
 const uri = envPopulated 
-  ? `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}.mongodb.net/RePlace` 
-  : "mongodb://localhost/RePlace";
+  ? `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}.mongodb.net/MUNSpot` 
+  : "mongodb://localhost/MUNSpot";
+// Connect using the URI and options
+mongoose.connect(uri, MONGO_OPTIONS);
+const db = mongoose.connection;
 
-const client = new MongoClient(uri, MONGO_OPTIONS)
+// Add some listeners
+db.on("error", (error: any) => console.log("Error: " + error));
+db.once("open", () => console.log("Connected to Database"));
 
-export default client;
+// Export db
+export default db;
