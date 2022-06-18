@@ -11,6 +11,13 @@ export const typeDefs = gql`
         saturday: [String]
     }
 
+    type RMPRating {
+        _id: ID,
+        query: String,
+        rating: String,
+        rating_count: String
+    }
+
     type BannerOffering {
         _id: ID,
         prof: String,
@@ -24,7 +31,8 @@ export const typeDefs = gql`
         subject: String,
         subject_code: String,
         number: String,
-        section: String
+        section: String,
+        rmp: RMPRating
     }
 
     type CalendarCourse {

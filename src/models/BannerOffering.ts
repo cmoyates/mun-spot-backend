@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+import {IRMPRating, RMPRatingSchema} from "./RMPRating";
 
 export interface Times {
   sunday: string[],
@@ -33,7 +34,8 @@ export interface IBannerOffering extends Document {
   subject: string,
   subject_code: string
   number: string,
-  section: string
+  section: string,
+  rmp?: IRMPRating
 };
 
 // BannerOffering mongoose schema
@@ -49,7 +51,8 @@ const BannerOfferingSchema: Schema = new Schema({
   subject: { type: String, required: true },
   subject_code: { type: String, required: true },
   number: { type: String, required: true },
-  section: { type: String, required: true }
+  section: { type: String, required: true },
+  rmp: { type: RMPRatingSchema, required: false }
 }, { collection: 'Banner' });
 
 // Exporting mongoose model made from the interface
