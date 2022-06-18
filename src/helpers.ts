@@ -27,11 +27,17 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
     const ratingIndex: number = data.indexOf("avgRating")
     const ratingSubstring: string = data.substring(ratingIndex - 1, ratingIndex + 35);
     const ratingStrings = ratingSubstring.split(",")
-    const ratingObj = new RMPRating({
+    const noRating = ratingSubstring === "\n          window.__RELAY_STORE__ ";
+    const ratingObj = new RMPRating(noRating ? {
+        query,
+        rating: "N/A",
+        rating_count: "N/A"
+    } : {
         query,
         rating: ratingStrings[0].split(":")[1],
         rating_count: ratingStrings[1].split(":")[1]
     })
+     
     await ratingObj.save();
     return ratingObj;
 }
