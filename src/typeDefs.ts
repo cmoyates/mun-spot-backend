@@ -26,7 +26,16 @@ export const typeDefs = gql`
         section: String
     }
 
+    type CalendarCourse {
+        _id: ID,
+        name: String,
+        number: String,
+        description: String,
+        subject: String
+    }
+
     type Query {
-        getOfferings(subject_code: String, number: String): [BannerOffering]
+        getOfferings(subject: String, number: String): [BannerOffering],
+        getCourseDetails(subject: String, number: String): [CalendarCourse]
     }
 `;
