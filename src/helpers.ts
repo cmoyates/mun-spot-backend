@@ -1,6 +1,7 @@
 import RMPRating, {IRMPRating} from "./models/RMPRating"
 import axios from "axios";
 import cheerio from "cheerio";
+import CalendarCourse, {ICalendarCourse} from "./models/CalendarCourse";
 
 const RMP_URL_PARTS = [
     "https://www.ratemyprofessors.com/search/teachers?query=",
@@ -40,4 +41,52 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
      
     await ratingObj.save();
     return ratingObj;
+}
+
+export const courseSearch = async (query: string, subject: string | undefined): Promise<ICalendarCourse[]> => {
+    const subjectFilter = !subject ? undefined : [{
+        text: {
+          query: subject,
+          path: "subject"
+        }
+    }]
+    const courses: ICalendarCourse[] = await CalendarCourse.aggregate([
+        {
+            $search: {
+                index: 'Calendar Search',
+                compound: {
+                    must: subjectFilter,
+                    should: [
+                        {
+                            text: {
+                                query: query,
+                                path: "description",
+                                fuzzy: {
+                                    maxEdits: 1
+                                }
+                            }
+                        },
+                        {
+                            text: {
+                                query: query,
+                                path: "name",
+                                fuzzy: {
+                                    maxEdits: 1
+                                },
+                                score: {
+                                    boost: {
+                                        value: 10
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            $limit: 3
+        }
+    ]);
+    return courses;
 }
