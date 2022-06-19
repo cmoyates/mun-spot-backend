@@ -13,7 +13,9 @@ export const resolvers = {
                 .limit(5)
                 .exec();
             for await (const offering of offerings) {
-                offering.rmp = await getRMPRating(offering.prof_full)
+                if (offering.rmp !== undefined) continue;
+                offering.rmp = await getRMPRating(offering.prof_full);
+                await offering.save();
             }
             return offerings;
         },
