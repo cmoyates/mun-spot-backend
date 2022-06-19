@@ -16,6 +16,10 @@ const startServer = async () => {
     await server.start()
     server.applyMiddleware({app})
 
+    app.get("/", (req, res) => {
+        res.send("The server is running!")
+    })
+
     app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 }
 
