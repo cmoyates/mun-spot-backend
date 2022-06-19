@@ -1,5 +1,5 @@
 import BannerOffering, {IBannerOffering} from "./models/BannerOffering";
-import "./db.ts"
+import "./db"
 import CalendarCourse, {ICalendarCourse} from "./models/CalendarCourse";
 //import RMPRating from "./models/RMPRating";
 import { getRMPRating } from "./helpers";
