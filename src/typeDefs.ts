@@ -44,8 +44,8 @@ export const typeDefs = gql`
     }
 
     type Query {
-        getOfferings(subject: String, number: String): [BannerOffering],
-        getCourseDetails(subject: String, number: String): [CalendarCourse],
+        getOfferings(subject: String!, number: String!): [BannerOffering],
+        getCourseDetails(subject: String!, number: String!): [CalendarCourse],
         courseSearch(query: String!, subject: String): [CalendarCourse],
         courseAutocomplete(subject: String!, number: String): [CalendarCourse]
     }

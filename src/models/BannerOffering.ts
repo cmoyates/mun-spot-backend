@@ -12,13 +12,13 @@ export interface Times {
 }
 
 const TimesSchema: Schema = new Schema({
-  sunday: { type: Array<String>, required: true },
-  monday: { type: Array<String>, required: true },
-  tuesday: { type: Array<String>, required: true },
-  wednesday: { type: Array<String>, required: true },
-  thursday: { type: Array<String>, required: true },
-  fFriday: { type: Array<String>, required: true },
-  saturday: { type: Array<String>, required: true }
+  sunday: { type: Array<string>, required: true },
+  monday: { type: Array<string>, required: true },
+  tuesday: { type: Array<string>, required: true },
+  wednesday: { type: Array<string>, required: true },
+  thursday: { type: Array<string>, required: true },
+  fFriday: { type: Array<string>, required: true },
+  saturday: { type: Array<string>, required: true }
 })
 
 // BannerOffering interface
@@ -36,7 +36,7 @@ export interface IBannerOffering extends Document {
   number: string,
   section: string,
   rmp?: IRMPRating
-};
+}
 
 // BannerOffering mongoose schema
 const BannerOfferingSchema: Schema = new Schema({
@@ -46,7 +46,7 @@ const BannerOfferingSchema: Schema = new Schema({
   room: { type: String, required: true },
   type: { type: String, required: true },
   times: { type: TimesSchema, required: true },
-  notes: { type: Array<String>, required: true },
+  notes: { type: Array<string>, required: true },
   campus: { type: String, required: true },
   subject: { type: String, required: true },
   subject_code: { type: String, required: true },

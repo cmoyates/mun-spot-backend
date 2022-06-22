@@ -6,7 +6,7 @@ export interface ICalendarCourse extends Document {
   number: string,
   description: string,
   subject: string,
-};
+}
 
 // CalendarCourse mongoose schema
 const CalendarCourseSchema: Schema = new Schema({

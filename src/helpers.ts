@@ -14,7 +14,7 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
         return cache;
     }
     const url = `${RMP_URL_PARTS[0]}${query}${RMP_URL_PARTS[1]}`;
-    let options = {
+    const options = {
         method: 'GET',
         url: url,
         headers: {
@@ -22,7 +22,7 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
             'Content-Type': 'application/json;charset=UTF-8'
         }
     };
-    let response = await axios(options);
+    const response = await axios(options);
     const $ = cheerio.load(response.data)
     const data: string = $("script").get()[7].children[0].data
     const ratingIndex: number = data.indexOf("avgRating")

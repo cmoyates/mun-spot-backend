@@ -5,7 +5,7 @@ export interface IRMPRating extends Document {
   query: string,
   rating: string,
   rating_count: string
-};
+}
 
 // RMPRating mongoose schema
 export const RMPRatingSchema: Schema = new Schema({
