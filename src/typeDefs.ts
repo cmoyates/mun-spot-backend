@@ -35,12 +35,25 @@ export const typeDefs = gql`
         rmp: RMPRating
     }
 
+    type CourseAttributes {
+        AR: String,
+        CH: String,
+        CO: String,
+        CR: String,
+        LC: String,
+        LH: String,
+        OR: String,
+        PR: String,
+        UL: String
+    }
+
     type CalendarCourse {
         _id: ID,
         name: String,
         number: String,
         description: String,
-        subject: String
+        subject: String,
+        attributes: CourseAttributes
     }
 
     type Query {
