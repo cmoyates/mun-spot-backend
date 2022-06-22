@@ -17,8 +17,20 @@ const TimesSchema: Schema = new Schema({
   tuesday: { type: Array<string>, required: true },
   wednesday: { type: Array<string>, required: true },
   thursday: { type: Array<string>, required: true },
-  fFriday: { type: Array<string>, required: true },
+  friday: { type: Array<string>, required: true },
   saturday: { type: Array<string>, required: true }
+})
+
+export interface ReservedFor {
+  degree?: string[],
+  major?: string[],
+  minor?: string[]
+}
+
+const ReservedForSchema: Schema = new Schema({
+  degree: { type: Array<string>, required: false },
+  major: { type: Array<string>, required: false },
+  minor: { type: Array<string>, required: false }
 })
 
 // BannerOffering interface
@@ -35,7 +47,12 @@ export interface IBannerOffering extends Document {
   subject_code: string
   number: string,
   section: string,
-  rmp?: IRMPRating
+  rmp?: IRMPRating,
+  associated_sections: string[],
+  cross_listed: string[],
+  reserved_for: ReservedFor,
+  year: number,
+  term: number
 }
 
 // BannerOffering mongoose schema
@@ -52,7 +69,12 @@ const BannerOfferingSchema: Schema = new Schema({
   subject_code: { type: String, required: true },
   number: { type: String, required: true },
   section: { type: String, required: true },
-  rmp: { type: RMPRatingSchema, required: false }
+  rmp: { type: RMPRatingSchema, required: false },
+  associated_sections: { type: Array<string>, required: true },
+  cross_listed: { type: Array<string>, required: true },
+  reserved_for: { type: ReservedForSchema, required: true },
+  year: { type: Number, required: true },
+  term: { type: Number, required: true }
 }, { collection: 'Banner' });
 
 // Exporting mongoose model made from the interface

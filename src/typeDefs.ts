@@ -15,7 +15,14 @@ export const typeDefs = gql`
         _id: ID,
         query: String,
         rating: String,
-        rating_count: String
+        rating_count: String,
+        legacy_id: String
+    }
+
+    type ReservedFor {
+        degree: [String],
+        major: [String],
+        minor: [String]
     }
 
     type BannerOffering {
@@ -32,7 +39,12 @@ export const typeDefs = gql`
         subject_code: String,
         number: String,
         section: String,
-        rmp: RMPRating
+        rmp: RMPRating,
+        associated_sections: [String],
+        cross_listed: [String],
+        reserved_for: ReservedFor,
+        year: Int,
+        term: Int
     }
 
     type CourseAttributes {
@@ -57,7 +69,7 @@ export const typeDefs = gql`
     }
 
     type Query {
-        getOfferings(subject: String!, number: String!): [BannerOffering],
+        getOfferings(subject_code: String!, number: String!, campus: String): [BannerOffering],
         getCourseDetails(subject: String!, number: String!): [CalendarCourse],
         courseSearch(query: String!, subject: String): [CalendarCourse],
         courseAutocomplete(subject: String!, number: String): [CalendarCourse]

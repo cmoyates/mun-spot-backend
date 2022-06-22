@@ -5,4 +5,4 @@
 - [x] Update RMP scraper to get prof "legacyId" for link on frontend
 - [ ] Move to frontend???
 - [x] Support attributes from Calendar courses
-- [ ] Support new banner offering fields
+- [x] Support new banner offering fields

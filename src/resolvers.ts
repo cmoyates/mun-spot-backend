@@ -3,16 +3,22 @@ import "./db"
 import CalendarCourse, { ICalendarCourse } from "./models/CalendarCourse";
 import { getRMPRating, courseSearch, courseAutocomplete } from "./helpers";
 
+type GetOfferingsQuery = { subject_code: string, number: string, campus?: string }
+
 export const resolvers = {
     Query: {
-        getOfferings: async (_parent: object, { subject, number }: { subject: string, number: string }) => {
-            const query = { subject_code: subject, number };
+        getOfferings: async (_parent: object, { subject_code, number, campus }: GetOfferingsQuery) => {
+            const query: GetOfferingsQuery = { subject_code, number };
+            if (campus) query.campus = campus;
             const offerings: IBannerOffering[] = await BannerOffering
                 .find(query)
-                .limit(5)
+                .sort({
+                    year: -1,
+                    term: -1
+                })
                 .exec();
             for await (const offering of offerings) {
-                if (offering.rmp !== undefined) continue;
+                if (offering.rmp !== undefined || !offering.prof_full) continue;
                 offering.rmp = await getRMPRating(offering.prof_full);
                 await offering.save();
             }
