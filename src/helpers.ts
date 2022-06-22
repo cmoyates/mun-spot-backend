@@ -25,18 +25,20 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
     const response = await axios(options);
     const $ = cheerio.load(response.data)
     const data: string = $("script").get()[7].children[0].data
-    const ratingIndex: number = data.indexOf("avgRating")
-    const ratingSubstring: string = data.substring(ratingIndex - 1, ratingIndex + 35);
+    const idIndex: number = data.indexOf("legacyId")
+    const ratingSubstring: string = data.substring(idIndex - 1, idIndex + 60);
     const ratingStrings = ratingSubstring.split(",")
-    const noRating = ratingSubstring === "\n          window.__RELAY_STORE__ ";
+    const noRating = ratingSubstring === "\n          window.__RELAY_STORE__ = {\"client:root\":{\"__id\":";
     const ratingObj = new RMPRating(noRating ? {
         query,
         rating: "N/A",
-        rating_count: "N/A"
+        rating_count: "N/A",
+        legacy_id: "N/A"
     } : {
         query,
-        rating: ratingStrings[0].split(":")[1],
-        rating_count: ratingStrings[1].split(":")[1]
+        rating: ratingStrings[1].split(":")[1],
+        rating_count: ratingStrings[2].split(":")[1],
+        legacy_id: ratingStrings[0].split(":")[1]
     })
 
     await ratingObj.save();

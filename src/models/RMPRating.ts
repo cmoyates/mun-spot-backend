@@ -4,14 +4,16 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface IRMPRating extends Document {
   query: string,
   rating: string,
-  rating_count: string
+  rating_count: string,
+  legacy_id: string
 }
 
 // RMPRating mongoose schema
 export const RMPRatingSchema: Schema = new Schema({
     query: { type: String, required: true },
     rating: { type: String, required: true },
-    rating_count: { type: String, required: true }
+    rating_count: { type: String, required: true },
+    legacy_id: { type: String, required: true }
   }, { collection: 'RateMyProf' });
   
 // Exporting mongoose model made from the interface
