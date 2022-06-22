@@ -1,7 +1,7 @@
-import RMPRating, {IRMPRating} from "./models/RMPRating"
+import RMPRating, { IRMPRating } from "./models/RMPRating"
 import axios from "axios";
 import cheerio from "cheerio";
-import CalendarCourse, {ICalendarCourse} from "./models/CalendarCourse";
+import CalendarCourse, { ICalendarCourse } from "./models/CalendarCourse";
 
 const RMP_URL_PARTS = [
     "https://www.ratemyprofessors.com/search/teachers?query=",
@@ -9,7 +9,7 @@ const RMP_URL_PARTS = [
 ]
 
 export const getRMPRating = async (query: string): Promise<IRMPRating> => {
-    const cache = await RMPRating.findOne({query});
+    const cache = await RMPRating.findOne({ query });
     if (cache !== null) {
         return cache;
     }
@@ -38,7 +38,7 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
         rating: ratingStrings[0].split(":")[1],
         rating_count: ratingStrings[1].split(":")[1]
     })
-     
+
     await ratingObj.save();
     return ratingObj;
 }
@@ -46,8 +46,8 @@ export const getRMPRating = async (query: string): Promise<IRMPRating> => {
 export const courseSearch = async (query: string, subject: string | undefined): Promise<ICalendarCourse[]> => {
     const subjectFilter = !subject ? undefined : [{
         text: {
-          query: subject,
-          path: "subject"
+            query: subject,
+            path: "subject"
         }
     }]
     const courses: ICalendarCourse[] = await CalendarCourse.aggregate([
@@ -82,6 +82,41 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                         }
                     ]
                 }
+            }
+        },
+        {
+            $limit: 3
+        }
+    ]);
+    return courses;
+}
+
+export const courseAutocomplete = async (subject: string, number: string) => {
+    const courses: ICalendarCourse[] = await CalendarCourse.aggregate([
+        {
+            $search: {
+                index: 'Calendar Autocomplete',
+                compound: {
+                    must: [
+                        {
+                            text: {
+                                query: subject,
+                                path: 'subject'
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: number,
+                                path: 'number'
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            $sort: {
+                number: 1
             }
         },
         {

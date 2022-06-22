@@ -1,7 +1,7 @@
 import BannerOffering, { IBannerOffering } from "./models/BannerOffering";
 import "./db"
 import CalendarCourse, { ICalendarCourse } from "./models/CalendarCourse";
-import { getRMPRating, courseSearch } from "./helpers";
+import { getRMPRating, courseSearch, courseAutocomplete } from "./helpers";
 
 export const resolvers = {
     Query: {
@@ -30,6 +30,9 @@ export const resolvers = {
         },
         courseSearch: async (_parent: any, { query, subject }: { query: string, subject: string }) => {
             return query ? await courseSearch(query, subject) : [];
+        },
+        courseAutocomplete: async (_parent: any, { subject, number }: { subject: string, number: string }) => {
+            return number ? await courseAutocomplete(subject, number) : [];
         }
     }
 };
