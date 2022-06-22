@@ -52,6 +52,7 @@ export const courseSearch = async (query: string, subject: string | undefined): 
             path: "subject"
         }
     }]
+
     const courses: ICalendarCourse[] = await CalendarCourse.aggregate([
         {
             $search: {
@@ -62,24 +63,40 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                         {
                             text: {
                                 query: query,
-                                path: "description",
-                                fuzzy: {
-                                    maxEdits: 1
+                                path: 'name',
+                                score: {
+                                    boost: {
+                                        value: 10
+                                    }
                                 }
                             }
                         },
                         {
                             text: {
                                 query: query,
-                                path: "name",
-                                fuzzy: {
-                                    maxEdits: 1
-                                },
+                                path: 'number',
                                 score: {
                                     boost: {
                                         value: 10
                                     }
                                 }
+                            }
+                        },
+                        {
+                            text: {
+                                query: query,
+                                path: 'subject',
+                                score: {
+                                    boost: {
+                                        value: 10
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            text: {
+                                query: query,
+                                path: 'description'
                             }
                         }
                     ]
