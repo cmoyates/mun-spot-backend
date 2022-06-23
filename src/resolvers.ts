@@ -22,7 +22,17 @@ export const resolvers = {
                 offering.rmp = await getRMPRating(offering.prof_full);
                 await offering.save();
             }
-            return offerings;
+            let offeringsMap: Map<string, IBannerOffering[]> = new Map<string, IBannerOffering[]>();
+            offerings.forEach((offering)=>{
+                const offeringGroupString = `${offering.year}-${offering.term}-${offering.campus}`;
+                if (offeringsMap.get(offeringGroupString)) {
+                    offeringsMap.get(offeringGroupString)?.push(offering)
+                }
+                else {
+                    offeringsMap.set(offeringGroupString, [offering])
+                }
+            });
+            return offeringsMap.values();
         },
         getCourseDetails: async (_parent: object, { subject, number }: { subject: string, number: string }) => {
             const query = { subject, number };
