@@ -63,6 +63,14 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                         {
                             text: {
                                 query: query,
+                                path: {
+                                    wildcard: '*'
+                                }
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: query,
                                 path: 'name',
                                 score: {
                                     boost: {
@@ -72,7 +80,27 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                             }
                         },
                         {
-                            text: {
+                            autocomplete: {
+                                query: query,
+                                path: 'description'
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: query,
+                                path: 'subject',
+                                score: {
+                                    boost: {
+                                        value: 10
+                                    }
+                                },
+                                fuzzy: {
+                                    maxEdits: 1
+                                }
+                            }
+                        },
+                        {
+                            autocomplete: {
                                 query: query,
                                 path: 'number',
                                 score: {
@@ -82,23 +110,6 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                                 }
                             }
                         },
-                        {
-                            text: {
-                                query: query,
-                                path: 'subject',
-                                score: {
-                                    boost: {
-                                        value: 10
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            text: {
-                                query: query,
-                                path: 'description'
-                            }
-                        }
                     ]
                 }
             }
