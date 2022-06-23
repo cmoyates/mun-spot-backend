@@ -6,3 +6,4 @@
 - [ ] Move to frontend???
 - [x] Support attributes from Calendar courses
 - [x] Support new banner offering fields
+- [ ] Update RMP scaper to make sure the prof is from MUN
