@@ -74,7 +74,7 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                                 path: 'name',
                                 score: {
                                     boost: {
-                                        value: 10
+                                        value: 5
                                     }
                                 }
                             }
@@ -91,11 +91,11 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                                 path: 'subject',
                                 score: {
                                     boost: {
-                                        value: 10
+                                        value: 30
                                     }
                                 },
                                 fuzzy: {
-                                    maxEdits: 1
+                                    maxEdits: 2
                                 }
                             }
                         },
