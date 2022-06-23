@@ -63,6 +63,14 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                         {
                             text: {
                                 query: query,
+                                path: {
+                                    wildcard: '*'
+                                }
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: query,
                                 path: 'name',
                                 score: {
                                     boost: {
@@ -72,18 +80,13 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                             }
                         },
                         {
-                            text: {
+                            autocomplete: {
                                 query: query,
-                                path: 'number',
-                                score: {
-                                    boost: {
-                                        value: 10
-                                    }
-                                }
+                                path: 'description'
                             }
                         },
                         {
-                            text: {
+                            autocomplete: {
                                 query: query,
                                 path: 'subject',
                                 score: {
@@ -94,11 +97,16 @@ export const courseSearch = async (query: string, subject: string | undefined): 
                             }
                         },
                         {
-                            text: {
+                            autocomplete: {
                                 query: query,
-                                path: 'description'
+                                path: 'number',
+                                score: {
+                                    boost: {
+                                        value: 10
+                                    }
+                                }
                             }
-                        }
+                        },
                     ]
                 }
             }
