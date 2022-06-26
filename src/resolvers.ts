@@ -58,5 +58,8 @@ export const resolvers = {
     ) => {
       return number ? await courseAutocomplete(subject, number) : [];
     },
+    getAllCourses: async () => {
+      return await CalendarCourse.find();
+    },
   },
 };
